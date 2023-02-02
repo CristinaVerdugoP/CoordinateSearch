@@ -24,7 +24,13 @@ const { targetName, ra, dec, radius } = storeToRefs(coordinate);
             />
           </div>
           <div class="row-4 q-mt-md q-ml-md">
-            <q-btn class="full-width" color="black" label="Resolve" />
+            <q-btn
+              data-test="resolve"
+              class="full-width"
+              color="black"
+              label="Resolve"
+              @click="coordinate.resolveName"
+            />
             <p class="q-mt-sm text-caption full-width">Provided by Sesame</p>
           </div>
         </q-item>

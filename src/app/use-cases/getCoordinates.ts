@@ -8,8 +8,18 @@ function getCoordinates() {
       const xmlDom = parser.parseFromString(result.data, "application/xml");
       const jra = xmlDom.querySelector("jradeg").innerHTML;
       const jdec = xmlDom.querySelector('jdedeg').innerHTML;
-      console.log(jra, jdec);
+      return { jra, jdec }
     });
 }
 
-export { getCoordinates };
+function execute(targetName: string, callbacks: any) {
+  try {
+    const result = getCoordinates()
+    callbacks.handleSuccess(result)
+  } catch (error) {
+    callbacks.handleError(error)
+  }
+
+}
+
+export { getCoordinates, execute };
