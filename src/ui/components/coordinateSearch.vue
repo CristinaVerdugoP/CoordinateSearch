@@ -3,8 +3,7 @@ import { storeToRefs } from "pinia";
 import { useCoordinateStore } from "@/ui/stores/conesearch";
 
 const coordinate = useCoordinateStore();
-const {targetName, ra, dec, radius} = storeToRefs(coordinate);
-
+const { targetName, ra, dec, radius } = storeToRefs(coordinate);
 </script>
 
 <template>
@@ -18,6 +17,7 @@ const {targetName, ra, dec, radius} = storeToRefs(coordinate);
         <q-item class="row">
           <div class="col-6 q-mr-lg">
             <q-input
+              data-test="targetName"
               class="q-mr-md"
               v-model="targetName"
               label="Target Name"
@@ -30,34 +30,22 @@ const {targetName, ra, dec, radius} = storeToRefs(coordinate);
         </q-item>
 
         <q-item>
-          <q-radio
-            class="q-mr-xl"
-            v-model="shape"
-            :value="false"
-            val="line"
-            label="Degrees"
-          />
-          <q-radio
-            class="q-ml-md"
-            v-model="shape"
-            :value="true"
-            val="line"
-            label="HMS/DMS"
-          />
+          <q-radio class="q-mr-xl" :value="false" val="line" label="Degrees" />
+          <q-radio class="q-ml-md" :value="true" val="line" label="HMS/DMS" />
         </q-item>
 
         <q-item class="row justify-between">
           <div class="col q-mr-sm">
-            <q-input v-model="ra" label="Ra" />
+            <q-input data-test="ra" v-model="ra" label="Ra" />
           </div>
           <div class="col q-ml-sm">
-            <q-input v-model="dec" label="Dec" />
+            <q-input data-test="dec" v-model="dec" label="Dec" />
           </div>
         </q-item>
 
         <q-item>
           <div class="col">
-            <q-input v-model="radius" label="Radius" />
+            <q-input data-test="radius" v-model="radius" label="Radius" />
           </div>
         </q-item>
       </q-list>
