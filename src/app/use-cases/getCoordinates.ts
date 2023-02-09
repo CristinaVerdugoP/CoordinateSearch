@@ -1,3 +1,4 @@
+import type { Callbacks } from "@/common/use-cases/callbacks";
 import axios from "axios";
 
 function getCoordinates() {
@@ -8,18 +9,17 @@ function getCoordinates() {
       const xmlDom = parser.parseFromString(result.data, "application/xml");
       const jra = xmlDom.querySelector("jradeg").innerHTML;
       const jdec = xmlDom.querySelector('jdedeg').innerHTML;
-      return { jra, jdec }
+      return { jra, jdec };
     });
 }
 
-function execute(targetName: string, callbacks: any) {
+function execute(targetName: string, callbacks: Callbacks) {
   try {
-    const result = getCoordinates()
-    callbacks.handleSuccess(result)
+    const result = getCoordinates();
+    callbacks.handleSuccess(result);
   } catch (error) {
-    callbacks.handleError(error)
+    callbacks.handleError(error);
   }
-
 }
 
 export { getCoordinates, execute };
