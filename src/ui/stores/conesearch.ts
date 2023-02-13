@@ -3,23 +3,23 @@ import { execute } from "@/app/use-cases/hmsToDegrees";
 import { defineStore } from "pinia";
 interface TypeState {
   targetName: string;
-  ra: number | null;
-  dec: number | null;
-  radius: number | null;
-  raHms: number | null | string;
-  decHms: number | null | string;
-  error: string | null;
+  ra: number;
+  dec: number;
+  radius: number;
+  raHms: number | string;
+  decHms: number | string;
+  error: string;
 }
 
 export const useCoordinateStore = defineStore("info", {
   state: (): TypeState => ({
     targetName: "",
-    ra: null,
-    dec: null,
-    radius: null,
-    raHms: null,
-    decHms: null,
-    error: null,
+    ra: -999,
+    dec: -999,
+    radius: -999,
+    raHms: -999,
+    decHms: -999,
+    error: "",
   }),
   actions: {
     resolveName() {
@@ -34,5 +34,8 @@ export const useCoordinateStore = defineStore("info", {
         },
       });
     },
+    hmsParse() {
+      
+    }
   },
 });
