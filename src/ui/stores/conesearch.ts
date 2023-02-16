@@ -1,29 +1,31 @@
-import { execute } from "@/app/use-cases/getCoordinates";
-import { execute } from "@/app/use-cases/hmsToDegrees";
 import { defineStore } from "pinia";
+import { hmsToDegreesUseCases } from "@/app/use-cases/hmsToDegrees";
+import { getCoordinatesUseCase } from "@/app/use-cases/getCoordinates";
+import { hmsParse } from "@/ui/stores/hmsParse";
+import type { HmsHandleSucces } from "@/common/use-cases/typeRaDecHms";
 interface TypeState {
   targetName: string;
-  ra: number;
-  dec: number;
+  ra: string;
+  dec: string;
   radius: number;
-  raHms: number | string;
-  decHms: number | string;
+  raHms: string;
+  decHms: string;
   error: string;
 }
 
 export const useCoordinateStore = defineStore("info", {
   state: (): TypeState => ({
     targetName: "",
-    ra: -999,
-    dec: -999,
+    ra: "",
+    dec: "",
     radius: -999,
-    raHms: -999,
-    decHms: -999,
+    raHms: "",
+    decHms: "",
     error: "",
   }),
   actions: {
     resolveName() {
-      execute(this.targetName, {
+      getCoordinatesUseCase.execute(this.targetName, {
         handleSuccess: (result) => {
           this.ra = result.jra;
           this.dec = result.jdec;
@@ -34,8 +36,31 @@ export const useCoordinateStore = defineStore("info", {
         },
       });
     },
-    hmsParse() {
-      
+    hmsDegrees() {
+      const parseRa = hmsParse(this.raHms);
+      const parseDec = hmsParse(this.decHms);
+      const radecHmsvalues = {
+        ra: {
+          hrs: parseRa[0],
+          min: parseRa[1],
+          sec: parseRa[2],
+        },
+        dec: {
+          hrs: parseDec[0],
+          min: parseDec[1],
+          sec: parseDec[2],
+        },
+      };
+      hmsToDegreesUseCases.execute(radecHmsvalues, {
+        handleSuccess: (result: HmsHandleSucces) => {
+          this.ra = result.resultRa;
+          this.dec = result.resultDec;
+        },
+        handleError: (error) => {
+          this.error = error;
+        }
+      });
     }
+
   },
 });
