@@ -1,26 +1,17 @@
-export type raDecHms = {
-  raHms: (ra: number) => string;
-  decHms: (dec: number) => string;
+export type HmsRaDec = {
+  raHms: string;
+  decHms: string;
 };
 
-export type hmsToDegreesResult = number;
+interface HmsHandleeSucces {
+  resultRa: string;
+  resultDec: string;
+}
 
-export type Ra = {
-  hrs: number;
-  min: number;
-  sec: number;
+export type hmsdegree = {
+  hms: (hms: number) => string;
 };
-export type Dec = {
-  hrs: number;
-  min: number;
-  sec: number;
-};
-
-export type hmsRaDec = {
-  rahms: number;
-  dechms: number;
-};
-interface raDecHms2 {
+interface RaDecHms {
   ra: {
     hrs: number;
     min: number;
@@ -32,4 +23,4 @@ interface raDecHms2 {
     sec: number;
   };
 }
-export type { raDecHms2 };
+export type { RaDecHms, HmsHandleeSucces };
