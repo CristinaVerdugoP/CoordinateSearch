@@ -1,12 +1,14 @@
-let testType: string
+import type { Callbacks } from "@/common/use-cases/callbacks";
+
+let testType: string;
 
 export function setTestType(ttype: string) {
-  testType = ttype
+  testType = ttype;
 }
 
-export function execute(targetName: string, callbacks: any) {
+export function execute(targetName: string, callbacks: Callbacks) {
   if (testType === "success")
-    callbacks.handleSuccess({ jra: 1, jdec: 2 })
-  else if (testType === "error")
-    callbacks.handleError(new Error("error"))
+    callbacks.handleSuccess({ jra: 1, jdec: 2 });
+  else if (testType === "error") 
+    callbacks.handleError(new Error("error"));
 }
