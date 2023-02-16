@@ -1,15 +1,15 @@
 import { mount, flushPromises } from "@vue/test-utils";
 import { installQuasar } from "@quasar/quasar-app-extension-testing-unit-vitest";
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import coordinateSearch from "@/ui/components/coordinateSearch.vue";
 import { useCoordinateStore } from "@/ui/stores/conesearch";
 import { installPinia } from "@/common/installPinia";
 import { setTestType } from "@/app/use-cases/__mocks__/getCoordinates";
 
 installQuasar();
-installPinia()
+installPinia();
 
-vi.mock("@/app/use-cases/getCoordinates")
+vi.mock("@/app/use-cases/getCoordinates");
 
 describe("Store component", () => {
   it("should pass the imputs to the store", async () => {
@@ -52,9 +52,9 @@ describe("Store component", () => {
     const button = wrapper.get('[data-test="resolve"]');
     button.trigger("click");
     await flushPromises();
-    expect(store.ra).toBe(null);
-    expect(store.dec).toBe(null);
-    expect(store.radius).toBe(null);
+    expect(store.ra).toBe(-999);
+    expect(store.dec).toBe(-999);
+    expect(store.radius).toBe(-999);
     expect(store.error).not.toBeNull();
     store.$reset();
   });
