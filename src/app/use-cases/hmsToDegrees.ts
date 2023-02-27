@@ -2,6 +2,7 @@ import type {
   RaDecHms,
   HmsHandleSucces,
 } from "@/common/use-cases/typeRaDecHms";
+
 import type { Callbacks } from "@/common/use-cases/callbacks";
 
 function raHmsToDegrees(hrs: number, min: number, sec: number): string {
@@ -15,7 +16,6 @@ function decHmsToDegrees(hrs: number, min: number, sec: number): string {
 }
 export const hmsToDegreesUseCases = {
   execute: (degrees: RaDecHms, callbacks: Callbacks) => {
-    type typeError = any; //******/
     try {
       const resultRa = raHmsToDegrees(
         degrees.ra.hrs,
@@ -32,7 +32,7 @@ export const hmsToDegreesUseCases = {
         resultDec,
       };
       callbacks.handleSuccess(result);
-    } catch (error: typeError) {
+    } catch (error:Error) {
       callbacks.handleError(error);
     }
   },
