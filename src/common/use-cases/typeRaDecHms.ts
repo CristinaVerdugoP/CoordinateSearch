@@ -3,7 +3,7 @@ export type HmsRaDec = {
   decHms: string;
 };
 
-interface HmsHandleeSucces {
+interface HmsHandleSucces {
   resultRa: string;
   resultDec: string;
 }
@@ -23,4 +23,4 @@ interface RaDecHms {
     sec: number;
   };
 }
-export type { RaDecHms, HmsHandleeSucces };
+export type { RaDecHms, HmsHandleSucces };
