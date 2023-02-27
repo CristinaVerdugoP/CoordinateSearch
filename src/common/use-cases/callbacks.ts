@@ -1,4 +1,6 @@
 export type Callbacks = {
-  handleSuccess: <ResultType>(payload: ResultType) => void;
+  handleSuccess: <Type>(payload: Type) => void;
   handleError: (error: Error) => void;
 };
+
+export type ErrorStore = Error | null;
