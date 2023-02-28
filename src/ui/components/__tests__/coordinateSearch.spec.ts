@@ -38,8 +38,8 @@ describe("Store component", () => {
     const button = wrapper.get('[data-test="resolve"]');
     button.trigger("click");
     await flushPromises();
-    expect(store.ra).toBe(1);
-    expect(store.dec).toBe(2);
+    expect(store.ra).toBe("1");
+    expect(store.dec).toBe("2");
     expect(store.radius).toBe(1.5);
     store.$reset();
   });
@@ -54,8 +54,17 @@ describe("Store component", () => {
     await flushPromises();
     expect(store.ra).toBe(-999);
     expect(store.dec).toBe(-999);
-    expect(store.radius).toBe(-999);
+    expect(store.radius).toBe("");
     expect(store.error).not.toBeNull();
     store.$reset();
+  });
+  it("should detect the q-radio buttons ", async () => {
+    const wrapper = mount(coordinateSearch);
+    const radioHms = wrapper.find('[data-test="buttonHMS"]');
+    const radioDegrees = wrapper.find('[data-test="buttonDegrees"]');
+    await radioHms.setChecked();
+    await radioDegrees.setChecked();
+    expect(radioHms.element.checked).toBeTruthy();
+    expect(radioDegrees.element.checked).toBeTruthy();
   });
 });
