@@ -2,15 +2,24 @@ import { defineStore } from "pinia";
 import { hmsToDegreesUseCases } from "@/app/use-cases/hmsToDegrees";
 import { getCoordinatesUseCase } from "@/app/use-cases/getCoordinates";
 import { hmsParse } from "@/ui/stores/hmsParse";
-import type { HmsHandleSucces } from "@/common/use-cases/typeRaDecHms";
+import type {
+  HmsHandleSucces,
+  RaDecHms,
+} from "@/common/use-cases/typeRaDecHms";
+import type { ErrorStore } from "@/common/use-cases/callbacks";
+interface Coordinates {
+  jra: string;
+  jdec: string;
+}
+
 interface TypeState {
   targetName: string;
   ra: string;
   dec: string;
-  radius: number;
+  radius: string | number;
   raHms: string;
   decHms: string;
-  error: string;
+  error: ErrorStore;
 }
 
 export const useCoordinateStore = defineStore("info", {
@@ -18,18 +27,23 @@ export const useCoordinateStore = defineStore("info", {
     targetName: "",
     ra: "",
     dec: "",
-    radius: -999,
+    radius: "",
     raHms: "",
     decHms: "",
-    error: "",
+    error: null,
   }),
   actions: {
     resolveName() {
       getCoordinatesUseCase.execute(this.targetName, {
         handleSuccess: (result) => {
-          this.ra = result.jra;
-          this.dec = result.jdec;
+          this.ra = String(result.jra);
+          this.dec = String(result.jdec);
           this.radius = 1.5;
+          console.log(
+            "Este es el action del getCoordinates",
+            this.ra,
+            this.dec
+          );
         },
         handleError: (error) => {
           this.error = error;
@@ -37,20 +51,6 @@ export const useCoordinateStore = defineStore("info", {
       });
     },
     hmsDegrees() {
-      const parseRa = hmsParse(this.raHms);
-      const parseDec = hmsParse(this.decHms);
-      const radecHmsvalues = {
-        ra: {
-          hrs: parseRa[0],
-          min: parseRa[1],
-          sec: parseRa[2],
-        },
-        dec: {
-          hrs: parseDec[0],
-          min: parseDec[1],
-          sec: parseDec[2],
-        },
-      };
       hmsToDegreesUseCases.execute(radecHmsvalues, {
         handleSuccess: (result: HmsHandleSucces) => {
           this.ra = result.resultRa;
